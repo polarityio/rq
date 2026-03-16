@@ -1,0 +1,13 @@
+{
+  "name": "rq",
+  "version": "1.0.0",
+  "description": "Polarity integration for the RQ platform — CVE financial risk and asset exposure",
+  "main": "./integration.js",
+  "private": true,
+  "license": "MIT",
+  "author": "Polarity",
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "postman-request": "^2.88.1-postman.33"
+  }
+}

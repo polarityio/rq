@@ -1,0 +1,42 @@
+{
+  "root": {
+    "path": "details",
+    "on_null": "return_empty"
+  },
+  "pipeline": [
+    {
+      "op": "truncate_list",
+      "path": "assets",
+      "max_size": 20,
+      "shape": {
+        "items": "$truncated",
+        "meta": {
+          "has_more": "$was_truncated",
+          "total": "$original_count"
+        }
+      }
+    },
+    {
+      "op": "truncate_list",
+      "path": "sources",
+      "max_size": 20,
+      "shape": {
+        "items": "$truncated",
+        "meta": {
+          "has_more": "$was_truncated",
+          "total": "$original_count"
+        }
+      }
+    },
+    {
+      "op": "drop",
+      "paths": [
+        "compensatingControls"
+      ]
+    }
+  ],
+  "output": {
+    "summary": "$root.summary",
+    "details": "$working"
+  }
+}
