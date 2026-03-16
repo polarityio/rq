@@ -24,8 +24,8 @@ module.exports = {
     passphrase: '',
     ca: '',
     proxy: '',
-    // Set to false for UAT/self-signed environments; leave true for production
-    rejectUnauthorized: true
+    // Set to false for environments using self-signed/internal CA certs (e.g. UAT)
+    rejectUnauthorized: false
   },
   logging: {
     level: 'info' // trace, debug, info, warn, error, fatal
