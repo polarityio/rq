@@ -18,8 +18,7 @@
   <div class="rq-section-title">Vulnerability Scores</div>
   <div class="rq-row">
     <span class="p-key">CVSS Score</span>
-    <span class="p-value rq-score
-      {{#if (gte details.cvssScore 9.0)}}rq-critical{{else if (gte details.cvssScore 7.0)}}rq-high{{else if (gte details.cvssScore 4.0)}}rq-medium{{else}}rq-low{{/if}}">
+    <span class="p-value rq-score {{cvssColorClass}}">
       {{details.cvssScore}}
     </span>
   </div>
@@ -47,7 +46,7 @@
   </div>
   <div class="rq-row">
     <span class="p-key">Critical Assets Affected</span>
-    <span class="p-value {{#if (gt details.criticalAssetsCount 0)}}rq-critical{{/if}}">
+    <span class="p-value {{if hasCriticalAssets "rq-critical"}}">
       {{details.criticalAssetsCount}}
     </span>
   </div>
