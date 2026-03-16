@@ -1,45 +1,157 @@
 /*
  * Copyright (c) 2024, Polarity.io, Inc.
- * RQ CVE Risk Integration — Scoped Styles
+ * RQ CVE Risk Integration — Styles (GTI-aligned)
  */
 
-.rq-block {
+.rq-container {
   font-size: 12px;
   line-height: 1.5;
 
-  .rq-summary-row {
+  // ── Header ──────────────────────────────────────────
+  .rq-header {
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 6px;
     flex-wrap: wrap;
+    margin-bottom: 8px;
 
-    .rq-cve-name {
+    .rq-cve-id {
       font-weight: 600;
+      font-size: 13px;
       letter-spacing: 0.02em;
+      color: rgba(255, 255, 255, 0.9);
     }
   }
 
-  .rq-divider {
-    display: block;
-    margin: 6px 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .rq-section-title {
-    font-weight: 600;
-    font-size: 11px;
+  // ── Status pill ─────────────────────────────────────
+  .rq-status-pill {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: rgba(255, 255, 255, 0.5);
-    margin: 4px 0 4px 0;
+    letter-spacing: 0.05em;
+    line-height: 16px;
   }
 
-  .rq-row {
+  .rq-status-exploitable {
+    background-color: rgba(255, 77, 79, 0.15);
+    color: #ff4d4f;
+    border: 1px solid rgba(255, 77, 79, 0.4);
+  }
+
+  .rq-status-not-exploitable,
+  .rq-status-notexploitable {
+    background-color: rgba(82, 196, 26, 0.15);
+    color: #52c41a;
+    border: 1px solid rgba(82, 196, 26, 0.4);
+  }
+
+  .rq-status-unknown {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  // ── Scores row ──────────────────────────────────────
+  .rq-scores-row {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    margin-bottom: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .rq-score-block {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 4px;
+    text-align: center;
+
+    .rq-score-label {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: rgba(255, 255, 255, 0.4);
+      margin-bottom: 3px;
+    }
+
+    .rq-score-value {
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1;
+    }
+  }
+
+  .rq-score-divider {
+    width: 1px;
+    background: rgba(255, 255, 255, 0.08);
+    align-self: stretch;
+  }
+
+  // CVSS severity colours
+  .rq-score-critical { color: #ff4d4f; }
+  .rq-score-high     { color: #ff7a00; }
+  .rq-score-medium   { color: #faad14; }
+  .rq-score-low      { color: #52c41a; }
+
+  .rq-financial {
+    color: #40a9ff;
+    font-size: 11px !important;
+  }
+
+  // ── Expandable section toggle header ────────────────
+  .rq-section-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 5px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    user-select: none;
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    .p-title {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      margin: 0;
+    }
+
+    .rq-count {
+      font-size: 10px;
+      font-weight: normal;
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .rq-chevron {
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.35);
+    }
+  }
+
+  // ── Section body (expanded content) ─────────────────
+  .rq-section-body {
+    padding: 4px 0 8px 0;
+  }
+
+  // ── Key/value row ────────────────────────────────────
+  .rq-kv-row {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    margin-bottom: 3px;
+    padding: 2px 0;
 
     .p-key {
       flex: 0 0 auto;
@@ -53,139 +165,51 @@
     }
   }
 
-  // Severity color classes
-  .rq-critical {
-    color: #ff4d4f;
-    font-weight: 600;
-  }
-
-  .rq-high {
-    color: #ff7a00;
-    font-weight: 600;
-  }
-
-  .rq-medium {
-    color: #faad14;
-  }
-
-  .rq-low {
-    color: #52c41a;
-  }
-
-  .rq-financial {
-    color: #40a9ff;
-    font-weight: 600;
-  }
-
-  .rq-score {
-    font-weight: 600;
-  }
-
-  // Status pill
-  .rq-pill {
-    display: inline-block;
-    padding: 1px 7px;
-    border-radius: 10px;
+  .rq-technique-id {
+    font-family: monospace;
     font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    line-height: 16px;
+    color: #40a9ff;
   }
 
-  .rq-status-exploitable {
-    background-color: rgba(255, 77, 79, 0.2);
-    color: #ff4d4f;
-    border: 1px solid rgba(255, 77, 79, 0.4);
+  // ── Asset cards ─────────────────────────────────────
+  .rq-asset-row {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 4px;
+    padding: 5px 7px;
+    margin-bottom: 4px;
+
+    .rq-asset-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 4px;
+
+      .rq-asset-name {
+        font-weight: 600;
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.85);
+      }
+
+      .rq-asset-score {
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.35);
+        font-style: italic;
+      }
+    }
+
+    .rq-asset-ips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3px;
+    }
   }
 
-  .rq-status-not-exploitable,
-  .rq-status-notexploitable {
-    background-color: rgba(82, 196, 26, 0.2);
-    color: #52c41a;
-    border: 1px solid rgba(82, 196, 26, 0.4);
-  }
-
-  .rq-status-unknown {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-  }
-
-  // Data source tags
-  .rq-sources {
+  // ── Pill row (sources) ───────────────────────────────
+  .rq-pills-row {
     display: flex;
     flex-wrap: wrap;
     gap: 4px;
-    margin-top: 2px;
-
-    .rq-source-tag {
-      display: inline-block;
-      padding: 1px 6px;
-      background-color: rgba(64, 169, 255, 0.15);
-      border: 1px solid rgba(64, 169, 255, 0.3);
-      border-radius: 4px;
-      font-size: 10px;
-      color: #40a9ff;
-    }
-  }
-
-  // Asset list
-  .rq-asset-list {
-    margin-top: 6px;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-
-    .rq-asset-row {
-      background-color: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 4px;
-      padding: 4px 6px;
-
-      .rq-asset-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: baseline;
-        margin-bottom: 3px;
-
-        .rq-asset-name {
-          font-weight: 600;
-          font-size: 11px;
-          color: rgba(255, 255, 255, 0.85);
-        }
-
-        .rq-asset-score {
-          font-size: 10px;
-          color: rgba(255, 255, 255, 0.45);
-          font-style: italic;
-        }
-      }
-
-      .rq-asset-ips {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 3px;
-
-        .rq-ip-tag {
-          display: inline-block;
-          padding: 0 5px;
-          background-color: rgba(255, 255, 255, 0.06);
-          border: 1px solid rgba(255, 255, 255, 0.12);
-          border-radius: 3px;
-          font-size: 10px;
-          font-family: monospace;
-          color: rgba(255, 255, 255, 0.6);
-        }
-      }
-    }
-  }
-
-  // MITRE ATT&CK techniques
-  .rq-techniques {
-    .rq-technique-name {
-      font-size: 11px;
-      text-align: right;
-    }
+    padding: 2px 0;
   }
 }

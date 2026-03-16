@@ -1,118 +1,154 @@
 {{! RQ CVE Risk Data — block.hbs }}
-<div class="rq-block">
+<div class="rq-container">
 
-  {{! Summary Row }}
-  <div class="rq-summary-row">
-    <span class="p-key">CVE:</span>
-    <span class="p-value rq-cve-name">{{details.cveName}}</span>
+  {{! ── Header: CVE name + status pill ── }}
+  <div class="rq-header">
+    <span class="rq-cve-id">{{details.cveName}}</span>
     {{#if hasStatus}}
-      <span class="rq-pill rq-status-pill {{statusClass}}">
-        {{details.status}}
-      </span>
+      <span class="rq-status-pill {{statusClass}}">{{details.status}}</span>
     {{/if}}
   </div>
 
-  <hr class="rq-divider">
-
-  {{! Vulnerability Scores }}
-  <div class="rq-section-title">Vulnerability Scores</div>
-  <div class="rq-row">
-    <span class="p-key">CVSS Score</span>
-    <span class="p-value rq-score {{cvssColorClass}}">{{details.cvssScore}}</span>
-  </div>
-  <div class="rq-row">
-    <span class="p-key">EPSS Score</span>
-    <span class="p-value">{{details.epssScore}}</span>
-  </div>
-
-  <hr class="rq-divider">
-
-  {{! Financial Risk }}
-  <div class="rq-section-title">Financial Risk</div>
-  <div class="rq-row">
-    <span class="p-key">Contributory Effect</span>
-    <span class="p-value rq-financial">{{details.contributoryEffect}}</span>
-  </div>
-
-  <hr class="rq-divider">
-
-  {{! Asset Exposure }}
-  <div class="rq-section-title">Asset Exposure</div>
-  <div class="rq-row">
-    <span class="p-key">Total Assets Affected</span>
-    <span class="p-value">{{details.assetsCount}}</span>
-  </div>
-  <div class="rq-row">
-    <span class="p-key">Critical Assets Affected</span>
-    <span class="p-value {{if hasCriticalAssets "rq-critical"}}">{{details.criticalAssetsCount}}</span>
+  {{! ── Core scores row ── }}
+  <div class="rq-scores-row">
+    <div class="rq-score-block">
+      <div class="rq-score-label">CVSS</div>
+      <div class="rq-score-value {{cvssColorClass}}">{{details.cvssScore}}</div>
+    </div>
+    <div class="rq-score-divider"></div>
+    <div class="rq-score-block">
+      <div class="rq-score-label">EPSS</div>
+      <div class="rq-score-value">{{details.epssScore}}</div>
+    </div>
+    <div class="rq-score-divider"></div>
+    <div class="rq-score-block">
+      <div class="rq-score-label">Financial Risk</div>
+      <div class="rq-score-value rq-financial">{{details.contributoryEffect}}</div>
+    </div>
+    <div class="rq-score-divider"></div>
+    <div class="rq-score-block">
+      <div class="rq-score-label">Assets</div>
+      <div class="rq-score-value">{{details.assetsCount}}</div>
+    </div>
   </div>
 
-  {{! Asset List }}
+  {{! ── Assets Dropdown ── }}
   {{#if hasAssets}}
-    <div class="rq-asset-list">
-      {{#each details.assets as |asset|}}
-        <div class="rq-asset-row">
-          <div class="rq-asset-header">
-            <span class="rq-asset-name">{{asset.name}}</span>
-            <span class="rq-asset-score">{{asset.endpointScoring}}</span>
-          </div>
-          <div class="rq-asset-ips">
-            {{#each asset.ips as |ip|}}
-              <span class="rq-ip-tag">{{ip}}</span>
-            {{/each}}
-          </div>
-        </div>
-      {{/each}}
+    <div class="rq-section-toggle" {{action "toggleSection" "Assets"}}>
+      <span class="p-title">
+        {{fa-icon "server" fixedWidth=true}}
+        Affected Assets
+        <span class="rq-count">({{details.assetsCount}})</span>
+      </span>
+      <span class="rq-chevron">
+        {{#if block._state.showAssets}}
+          {{fa-icon "chevron-up"}}
+        {{else}}
+          {{fa-icon "chevron-down"}}
+        {{/if}}
+      </span>
     </div>
-  {{/if}}
-
-  {{! MITRE ATT&CK Techniques }}
-  {{#if hasTechniques}}
-    <hr class="rq-divider">
-    <div class="rq-section-title">MITRE ATT&amp;CK Techniques</div>
-    <div class="rq-techniques">
-      {{#each details.techniques as |technique|}}
-        <div class="rq-row">
-          <span class="p-key">{{technique.id}}</span>
-          <span class="p-value rq-technique-name">{{technique.name}}</span>
-        </div>
-      {{/each}}
-    </div>
-  {{/if}}
-
-  {{! Compensating Controls }}
-  {{#if hasCompensatingControls}}
-    <hr class="rq-divider">
-    <div class="rq-section-title">Compensating Controls</div>
-    {{#each details.compensatingControls as |control|}}
-      <div class="rq-row">
-        <span class="p-value">{{control}}</span>
+    {{#if block._state.showAssets}}
+      <div class="rq-section-body">
+        {{#each details.assets as |asset|}}
+          <div class="rq-asset-row">
+            <div class="rq-asset-header">
+              <span class="rq-asset-name">{{asset.name}}</span>
+              <span class="rq-asset-score">Score: {{asset.endpointScoring}}</span>
+            </div>
+            {{#if asset.ips}}
+              <div class="rq-asset-ips">
+                {{#each asset.ips as |ip|}}
+                  <span class="pill-tag">{{ip}}</span>
+                {{/each}}
+              </div>
+            {{/if}}
+          </div>
+        {{/each}}
       </div>
-    {{/each}}
+    {{/if}}
   {{/if}}
 
-  {{! Data Sources }}
+  {{! ── MITRE ATT&CK Techniques Dropdown ── }}
+  {{#if hasTechniques}}
+    <div class="rq-section-toggle" {{action "toggleSection" "Techniques"}}>
+      <span class="p-title">
+        {{fa-icon "shield-alt" fixedWidth=true}}
+        MITRE ATT&amp;CK Techniques
+        <span class="rq-count">({{details.techniques.length}})</span>
+      </span>
+      <span class="rq-chevron">
+        {{#if block._state.showTechniques}}
+          {{fa-icon "chevron-up"}}
+        {{else}}
+          {{fa-icon "chevron-down"}}
+        {{/if}}
+      </span>
+    </div>
+    {{#if block._state.showTechniques}}
+      <div class="rq-section-body">
+        {{#each details.techniques as |technique|}}
+          <div class="rq-kv-row">
+            <span class="p-key rq-technique-id">{{technique.id}}</span>
+            <span class="p-value">{{technique.name}}</span>
+          </div>
+        {{/each}}
+      </div>
+    {{/if}}
+  {{/if}}
+
+  {{! ── Data Sources Dropdown ── }}
   {{#if hasSources}}
-    <hr class="rq-divider">
-    <div class="rq-section-title">Data Sources</div>
-    <div class="rq-sources">
-      {{#each details.sources as |source|}}
-        <span class="rq-source-tag">{{source}}</span>
-      {{/each}}
+    <div class="rq-section-toggle" {{action "toggleSection" "Sources"}}>
+      <span class="p-title">
+        {{fa-icon "database" fixedWidth=true}}
+        Data Sources
+        <span class="rq-count">({{details.sources.length}})</span>
+      </span>
+      <span class="rq-chevron">
+        {{#if block._state.showSources}}
+          {{fa-icon "chevron-up"}}
+        {{else}}
+          {{fa-icon "chevron-down"}}
+        {{/if}}
+      </span>
+    </div>
+    {{#if block._state.showSources}}
+      <div class="rq-section-body">
+        <div class="rq-pills-row">
+          {{#each details.sources as |source|}}
+            <span class="pill-tag">{{source}}</span>
+          {{/each}}
+        </div>
+      </div>
+    {{/if}}
+  {{/if}}
+
+  {{! ── Timeline Dropdown ── }}
+  <div class="rq-section-toggle" {{action "toggleSection" "Timeline"}}>
+    <span class="p-title">
+      {{fa-icon "calendar-alt" fixedWidth=true}}
+      Timeline
+    </span>
+    <span class="rq-chevron">
+      {{#if block._state.showTimeline}}
+        {{fa-icon "chevron-up"}}
+      {{else}}
+        {{fa-icon "chevron-down"}}
+      {{/if}}
+    </span>
+  </div>
+  {{#if block._state.showTimeline}}
+    <div class="rq-section-body">
+      <div class="rq-kv-row">
+        <span class="p-key">Published</span>
+        <span class="p-value">{{details.publishDate}}</span>
+      </div>
+      <div class="rq-kv-row">
+        <span class="p-key">Last Updated</span>
+        <span class="p-value">{{details.updateDate}}</span>
+      </div>
     </div>
   {{/if}}
-
-  <hr class="rq-divider">
-
-  {{! Timeline }}
-  <div class="rq-section-title">Timeline</div>
-  <div class="rq-row">
-    <span class="p-key">Published</span>
-    <span class="p-value">{{details.publishDate}}</span>
-  </div>
-  <div class="rq-row">
-    <span class="p-key">Last Updated</span>
-    <span class="p-value">{{details.updateDate}}</span>
-  </div>
 
 </div>
