@@ -1,35 +1,34 @@
 {{! RQ CVE Risk Data — block.hbs }}
 <div class="rq-container">
 
-  {{! ── Header: CVE name + status pill ── }}
-  <div class="rq-header">
-    <span class="rq-cve-id">{{details.cveName}}</span>
-    {{#if hasStatus}}
-      <span class="rq-status-pill {{statusClass}}">{{details.status}}</span>
-    {{/if}}
+  {{! ── Core Fields ── }}
+  {{#if hasStatus}}
+    <div>
+      <span class="p-key">Status:</span>
+      <span class="p-value">
+        <span class="rq-status-pill {{statusClass}}">{{details.status}}</span>
+      </span>
+    </div>
+  {{/if}}
+
+  <div>
+    <span class="p-key">CVSS Score:</span>
+    <span class="p-value {{cvssColorClass}}">{{details.cvssScore}}</span>
   </div>
 
-  {{! ── Core scores row ── }}
-  <div class="rq-scores-row">
-    <div class="rq-score-block">
-      <div class="rq-score-label">CVSS</div>
-      <div class="rq-score-value {{cvssColorClass}}">{{details.cvssScore}}</div>
-    </div>
-    <div class="rq-score-divider"></div>
-    <div class="rq-score-block">
-      <div class="rq-score-label">EPSS</div>
-      <div class="rq-score-value">{{details.epssScore}}</div>
-    </div>
-    <div class="rq-score-divider"></div>
-    <div class="rq-score-block">
-      <div class="rq-score-label">Financial Risk</div>
-      <div class="rq-score-value rq-financial">{{details.contributoryEffect}}</div>
-    </div>
-    <div class="rq-score-divider"></div>
-    <div class="rq-score-block">
-      <div class="rq-score-label">Assets</div>
-      <div class="rq-score-value">{{details.assetsCount}}</div>
-    </div>
+  <div>
+    <span class="p-key">EPSS Score:</span>
+    <span class="p-value">{{details.epssScore}}</span>
+  </div>
+
+  <div>
+    <span class="p-key">Financial Risk:</span>
+    <span class="p-value rq-financial">{{details.contributoryEffect}}</span>
+  </div>
+
+  <div>
+    <span class="p-key">Assets Affected:</span>
+    <span class="p-value">{{details.assetsCount}}</span>
   </div>
 
   {{! ── Assets Dropdown ── }}
@@ -51,18 +50,25 @@
     {{#if block._state.showAssets}}
       <div class="rq-section-body">
         {{#each details.assets as |asset|}}
-          <div class="rq-asset-row">
-            <div class="rq-asset-header">
-              <span class="rq-asset-name">{{asset.name}}</span>
-              <span class="rq-asset-score">Score: {{asset.endpointScoring}}</span>
+          <div class="rq-asset-entry">
+            <div>
+              <span class="p-key">Asset Name:</span>
+              <span class="p-value">{{asset.name}}</span>
             </div>
             {{#if asset.ips}}
-              <div class="rq-asset-ips">
-                {{#each asset.ips as |ip|}}
-                  <span class="pill-tag">{{ip}}</span>
-                {{/each}}
+              <div>
+                <span class="p-key">IP Address:</span>
+                <span class="p-value rq-pill-value">
+                  {{#each asset.ips as |ip|}}
+                    <span class="pill-tag">{{ip}}</span>
+                  {{/each}}
+                </span>
               </div>
             {{/if}}
+            <div>
+              <span class="p-key">Endpoint Score:</span>
+              <span class="p-value">{{asset.endpointScoring}}</span>
+            </div>
           </div>
         {{/each}}
       </div>
@@ -88,8 +94,8 @@
     {{#if block._state.showTechniques}}
       <div class="rq-section-body">
         {{#each details.techniques as |technique|}}
-          <div class="rq-kv-row">
-            <span class="p-key rq-technique-id">{{technique.id}}</span>
+          <div>
+            <span class="p-key rq-technique-id">{{technique.id}}:</span>
             <span class="p-value">{{technique.name}}</span>
           </div>
         {{/each}}
@@ -115,10 +121,13 @@
     </div>
     {{#if block._state.showSources}}
       <div class="rq-section-body">
-        <div class="rq-pills-row">
-          {{#each details.sources as |source|}}
-            <span class="pill-tag">{{source}}</span>
-          {{/each}}
+        <div>
+          <span class="p-key">Sources:</span>
+          <span class="p-value rq-pill-value">
+            {{#each details.sources as |source|}}
+              <span class="pill-tag">{{source}}</span>
+            {{/each}}
+          </span>
         </div>
       </div>
     {{/if}}
@@ -140,12 +149,12 @@
   </div>
   {{#if block._state.showTimeline}}
     <div class="rq-section-body">
-      <div class="rq-kv-row">
-        <span class="p-key">Published</span>
+      <div>
+        <span class="p-key">Published:</span>
         <span class="p-value">{{details.publishDate}}</span>
       </div>
-      <div class="rq-kv-row">
-        <span class="p-key">Last Updated</span>
+      <div>
+        <span class="p-key">Last Updated:</span>
         <span class="p-value">{{details.updateDate}}</span>
       </div>
     </div>

@@ -1,26 +1,17 @@
 /*
  * Copyright (c) 2024, Polarity.io, Inc.
- * RQ CVE Risk Integration — Styles (GTI-aligned)
+ * RQ CVE Risk Integration — Styles
  */
 
 .rq-container {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
 
-  // ── Header ──────────────────────────────────────────
-  .rq-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-bottom: 8px;
-
-    .rq-cve-id {
-      font-weight: 600;
-      font-size: 13px;
-      letter-spacing: 0.02em;
-      color: rgba(255, 255, 255, 0.9);
-    }
+  // Standard p-key/p-value row spacing
+  > div,
+  .rq-section-body > div,
+  .rq-asset-entry > div {
+    margin-bottom: 2px;
   }
 
   // ── Status pill ─────────────────────────────────────
@@ -33,6 +24,7 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
     line-height: 16px;
+    vertical-align: middle;
   }
 
   .rq-status-exploitable {
@@ -54,66 +46,26 @@
     border: 1px solid rgba(255, 255, 255, 0.15);
   }
 
-  // ── Scores row ──────────────────────────────────────
-  .rq-scores-row {
-    display: flex;
-    align-items: stretch;
-    gap: 0;
-    margin-bottom: 10px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 6px;
-    overflow: hidden;
-  }
-
-  .rq-score-block {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 8px 4px;
-    text-align: center;
-
-    .rq-score-label {
-      font-size: 9px;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      color: rgba(255, 255, 255, 0.4);
-      margin-bottom: 3px;
-    }
-
-    .rq-score-value {
-      font-size: 13px;
-      font-weight: 600;
-      line-height: 1;
-    }
-  }
-
-  .rq-score-divider {
-    width: 1px;
-    background: rgba(255, 255, 255, 0.08);
-    align-self: stretch;
-  }
-
-  // CVSS severity colours
-  .rq-score-critical { color: #ff4d4f; }
-  .rq-score-high     { color: #ff7a00; }
-  .rq-score-medium   { color: #faad14; }
+  // ── CVSS severity colours ────────────────────────────
+  .rq-score-critical { color: #ff4d4f; font-weight: 600; }
+  .rq-score-high     { color: #ff7a00; font-weight: 600; }
+  .rq-score-medium   { color: #faad14; font-weight: 600; }
   .rq-score-low      { color: #52c41a; }
 
+  // ── Financial risk value ─────────────────────────────
   .rq-financial {
     color: #40a9ff;
-    font-size: 11px !important;
+    font-weight: 600;
   }
 
-  // ── Expandable section toggle header ────────────────
+  // ── Expandable section toggle header ─────────────────
   .rq-section-toggle {
     display: flex;
     align-items: center;
     justify-content: space-between;
     cursor: pointer;
-    padding: 5px 0;
+    padding: 5px 0 4px;
+    margin-top: 6px;
     border-top: 1px solid rgba(255, 255, 255, 0.07);
     user-select: none;
 
@@ -130,7 +82,6 @@
     }
 
     .rq-count {
-      font-size: 10px;
       font-weight: normal;
       color: rgba(255, 255, 255, 0.4);
     }
@@ -141,75 +92,33 @@
     }
   }
 
-  // ── Section body (expanded content) ─────────────────
+  // ── Section body ─────────────────────────────────────
   .rq-section-body {
-    padding: 4px 0 8px 0;
+    padding: 4px 0 6px 0;
   }
 
-  // ── Key/value row ────────────────────────────────────
-  .rq-kv-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    padding: 2px 0;
+  // ── Asset entry — card per asset ─────────────────────
+  .rq-asset-entry {
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 5px 0 3px;
 
-    .p-key {
-      flex: 0 0 auto;
-      margin-right: 8px;
-    }
-
-    .p-value {
-      flex: 1 1 auto;
-      text-align: right;
-      word-break: break-word;
+    &:first-child {
+      border-top: none;
+      padding-top: 0;
     }
   }
 
+  // ── MITRE technique ID ───────────────────────────────
   .rq-technique-id {
     font-family: monospace;
-    font-size: 10px;
     color: #40a9ff;
   }
 
-  // ── Asset cards ─────────────────────────────────────
-  .rq-asset-row {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    border-radius: 4px;
-    padding: 5px 7px;
-    margin-bottom: 4px;
-
-    .rq-asset-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 4px;
-
-      .rq-asset-name {
-        font-weight: 600;
-        font-size: 11px;
-        color: rgba(255, 255, 255, 0.85);
-      }
-
-      .rq-asset-score {
-        font-size: 10px;
-        color: rgba(255, 255, 255, 0.35);
-        font-style: italic;
-      }
-    }
-
-    .rq-asset-ips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 3px;
-    }
-  }
-
-  // ── Pill row (sources) ───────────────────────────────
-  .rq-pills-row {
-    display: flex;
+  // ── p-value containing pills (IPs, sources) ──────────
+  .rq-pill-value {
+    display: inline-flex;
     flex-wrap: wrap;
-    gap: 4px;
-    padding: 2px 0;
+    gap: 3px;
+    vertical-align: middle;
   }
 }
