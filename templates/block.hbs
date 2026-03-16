@@ -5,7 +5,7 @@
   <div class="rq-summary-row">
     <span class="p-key">CVE:</span>
     <span class="p-value rq-cve-name">{{details.cveName}}</span>
-    {{#if (ne details.status "N/A")}}
+    {{#if (not (eq details.status "N/A"))}}
       <span class="rq-pill rq-status-pill rq-status-{{lowercase details.status}}">
         {{details.status}}
       </span>
