@@ -1,12 +1,12 @@
 {{! RQ CVE Risk Data — block.hbs }}
 <div class="rq-block">
 
-  {{! ── Summary Row ── }}
+  {{! Summary Row }}
   <div class="rq-summary-row">
     <span class="p-key">CVE:</span>
     <span class="p-value rq-cve-name">{{details.cveName}}</span>
-    {{#if (not (eq details.status "N/A"))}}
-      <span class="rq-pill rq-status-pill rq-status-{{lowercase details.status}}">
+    {{#if hasStatus}}
+      <span class="rq-pill rq-status-pill {{statusClass}}">
         {{details.status}}
       </span>
     {{/if}}
@@ -14,13 +14,11 @@
 
   <hr class="rq-divider">
 
-  {{! ── Scores ── }}
+  {{! Vulnerability Scores }}
   <div class="rq-section-title">Vulnerability Scores</div>
   <div class="rq-row">
     <span class="p-key">CVSS Score</span>
-    <span class="p-value rq-score {{cvssColorClass}}">
-      {{details.cvssScore}}
-    </span>
+    <span class="p-value rq-score {{cvssColorClass}}">{{details.cvssScore}}</span>
   </div>
   <div class="rq-row">
     <span class="p-key">EPSS Score</span>
@@ -29,7 +27,7 @@
 
   <hr class="rq-divider">
 
-  {{! ── Financial Risk ── }}
+  {{! Financial Risk }}
   <div class="rq-section-title">Financial Risk</div>
   <div class="rq-row">
     <span class="p-key">Contributory Effect</span>
@@ -38,7 +36,7 @@
 
   <hr class="rq-divider">
 
-  {{! ── Asset Exposure ── }}
+  {{! Asset Exposure }}
   <div class="rq-section-title">Asset Exposure</div>
   <div class="rq-row">
     <span class="p-key">Total Assets Affected</span>
@@ -46,19 +44,17 @@
   </div>
   <div class="rq-row">
     <span class="p-key">Critical Assets Affected</span>
-    <span class="p-value {{if hasCriticalAssets "rq-critical"}}">
-      {{details.criticalAssetsCount}}
-    </span>
+    <span class="p-value {{if hasCriticalAssets "rq-critical"}}">{{details.criticalAssetsCount}}</span>
   </div>
 
-  {{! ── Asset List ── }}
-  {{#if details.assets.length}}
+  {{! Asset List }}
+  {{#if hasAssets}}
     <div class="rq-asset-list">
-      {{#each details.assets as |asset assetIndex|}}
+      {{#each details.assets as |asset|}}
         <div class="rq-asset-row">
           <div class="rq-asset-header">
             <span class="rq-asset-name">{{asset.name}}</span>
-            <span class="rq-asset-score" title="Endpoint Risk Score">{{asset.endpointScoring}}</span>
+            <span class="rq-asset-score">{{asset.endpointScoring}}</span>
           </div>
           <div class="rq-asset-ips">
             {{#each asset.ips as |ip|}}
@@ -70,26 +66,22 @@
     </div>
   {{/if}}
 
-  {{! ── MITRE ATT&CK Techniques ── }}
-  {{#if details.techniques.length}}
+  {{! MITRE ATT&CK Techniques }}
+  {{#if hasTechniques}}
     <hr class="rq-divider">
-    <div class="rq-section-title">MITRE ATT&CK Techniques</div>
+    <div class="rq-section-title">MITRE ATT&amp;CK Techniques</div>
     <div class="rq-techniques">
       {{#each details.techniques as |technique|}}
         <div class="rq-row">
-          <span class="p-key">
-            <a class="p-link" href="https://attack.mitre.org/techniques/{{technique.id}}/" target="_blank">
-              {{technique.id}}
-            </a>
-          </span>
+          <span class="p-key">{{technique.id}}</span>
           <span class="p-value rq-technique-name">{{technique.name}}</span>
         </div>
       {{/each}}
     </div>
   {{/if}}
 
-  {{! ── Compensating Controls ── }}
-  {{#if details.compensatingControls.length}}
+  {{! Compensating Controls }}
+  {{#if hasCompensatingControls}}
     <hr class="rq-divider">
     <div class="rq-section-title">Compensating Controls</div>
     {{#each details.compensatingControls as |control|}}
@@ -99,8 +91,8 @@
     {{/each}}
   {{/if}}
 
-  {{! ── Data Sources ── }}
-  {{#if details.sources.length}}
+  {{! Data Sources }}
+  {{#if hasSources}}
     <hr class="rq-divider">
     <div class="rq-section-title">Data Sources</div>
     <div class="rq-sources">
@@ -112,7 +104,7 @@
 
   <hr class="rq-divider">
 
-  {{! ── Dates ── }}
+  {{! Timeline }}
   <div class="rq-section-title">Timeline</div>
   <div class="rq-row">
     <span class="p-key">Published</span>
