@@ -84,6 +84,10 @@ const buildSummary = (result) => {
     tags.push(`CVSS: ${result.cvssScore}`);
   }
 
+  if (result.epssScore && result.epssScore !== 'N/A') {
+    tags.push(`EPSS: ${result.epssScore}`);
+  }
+
   if (result.assetsCount !== 'N/A') {
     tags.push(`Assets: ${result.assetsCount}`);
   }

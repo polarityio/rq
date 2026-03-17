@@ -23,12 +23,13 @@ const formatUsd = (value) => {
 };
 
 /**
- * Formats a decimal probability as a percentage string (e.g. 0.042 → "4.20%").
- * Returns 'N/A' if the value is null/undefined.
+ * Formats an EPSS score from the RQ API's 0–10000 scale to a display percentage.
+ * The API returns values like 9466.0, which represents a 94.66% probability.
+ * Dividing by 100 converts to the correct percentage string (e.g. 9466.0 → "94.66%").
  */
 const formatPercent = (value) => {
   if (value == null) return 'N/A';
-  return `${(value * 100).toFixed(2)}%`;
+  return `${(value / 100).toFixed(2)}%`;
 };
 
 /**
