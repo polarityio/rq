@@ -16,10 +16,22 @@ const { transformRqResult } = require('./dataTransformations');
  * @param {Object}   Logger             - Polarity logger
  * @returns {Promise<Array>} Polarity-formatted lookup results
  */
+// RQ enforces a concurrency limit — more than 2 simultaneous CVE requests causes failures.
+// We process entities sequentially with a 500ms pause between each request.
+const INTER_REQUEST_DELAY_MS = 500;
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 const getLookupResults = async (entities, options, requestWithDefaults, Logger) => {
-  const lookupResults = await Promise.all(
-    entities.map((entity) => queryCveRiskData(entity, options, requestWithDefaults, Logger))
-  );
+  const lookupResults = [];
+
+  for (let i = 0; i < entities.length; i++) {
+    if (i > 0) {
+      await sleep(INTER_REQUEST_DELAY_MS);
+    }
+    const result = await queryCveRiskData(entities[i], options, requestWithDefaults, Logger);
+    lookupResults.push(result);
+  }
 
   return lookupResults;
 };
