@@ -31,6 +31,13 @@
     <span class="p-value">{{details.assetsCount}}</span>
   </div>
 
+  {{#if hasCriticalAssets}}
+    <div>
+      <span class="p-key">Critical Assets:</span>
+      <span class="p-value rq-score-critical">{{details.criticalAssetsCount}}</span>
+    </div>
+  {{/if}}
+
   {{! ── Assets Dropdown ── }}
   {{#if hasAssets}}
     <div class="rq-section-toggle" {{action "toggleSection" "Assets"}}>
@@ -129,6 +136,55 @@
             {{/each}}
           </span>
         </div>
+      </div>
+    {{/if}}
+  {{/if}}
+
+  {{! ── Compensating Controls Dropdown ── }}
+  {{#if hasCompensatingControls}}
+    <div class="rq-section-toggle" {{action "toggleSection" "Controls"}}>
+      <span class="p-title">
+        {{fa-icon "shield-check" fixedWidth=true}}
+        Compensating Controls
+        <span class="rq-count">({{details.compensatingControls.length}})</span>
+      </span>
+      <span class="rq-chevron">
+        {{#if block._state.showControls}}
+          {{fa-icon "chevron-up"}}
+        {{else}}
+          {{fa-icon "chevron-down"}}
+        {{/if}}
+      </span>
+    </div>
+    {{#if block._state.showControls}}
+      <div class="rq-section-body">
+        {{#each details.compensatingControls as |control|}}
+          <div class="rq-control-entry">
+            {{#if control.name}}
+              <div>
+                <span class="p-key">Control:</span>
+                <span class="p-value">{{control.name}}</span>
+              </div>
+            {{/if}}
+            {{#if control.description}}
+              <div>
+                <span class="p-key">Description:</span>
+                <span class="p-value">{{control.description}}</span>
+              </div>
+            {{/if}}
+            {{#if control.type}}
+              <div>
+                <span class="p-key">Type:</span>
+                <span class="p-value">{{control.type}}</span>
+              </div>
+            {{/if}}
+            {{#if (not (or control.name control.description control.type))}}
+              <div>
+                <span class="p-value">{{control}}</span>
+              </div>
+            {{/if}}
+          </div>
+        {{/each}}
       </div>
     {{/if}}
   {{/if}}

@@ -1,6 +1,6 @@
 {
   "name": "rq",
-  "version": "3.0.4",
+  "version": "3.0.5",
   "description": "Polarity integration for the RQ platform — CVE financial risk and asset exposure",
   "main": "./integration.js",
   "private": true,
