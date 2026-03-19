@@ -24,9 +24,19 @@ polarity.export = PolarityComponent.extend({
     return a && a.length > 0;
   }),
 
+  hasCriticalAssets: Ember.computed('details.criticalAssetsCount', function () {
+    const c = this.get('details.criticalAssetsCount');
+    return c != null && c !== 'N/A' && c > 0;
+  }),
+
   hasTechniques: Ember.computed('details.techniques', function () {
     const t = this.get('details.techniques');
     return t && t.length > 0;
+  }),
+
+  hasCompensatingControls: Ember.computed('details.compensatingControls', function () {
+    const c = this.get('details.compensatingControls');
+    return c && c.length > 0;
   }),
 
   hasSources: Ember.computed('details.sources', function () {
@@ -40,6 +50,7 @@ polarity.export = PolarityComponent.extend({
       this.set('block._state', {
         showAssets: false,
         showTechniques: false,
+        showControls: false,
         showSources: false,
         showTimeline: false
       });
